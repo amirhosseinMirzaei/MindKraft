@@ -30,8 +30,6 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
 
 
 
-
-
 class LanguageSwitcher extends StatefulWidget {
   const LanguageSwitcher({super.key});
 
@@ -44,9 +42,9 @@ class _LanguageSwitcherState extends State<LanguageSwitcher> with SingleTickerPr
   late AnimationController _controller;
 
   final List<_FlagItem> flags = [
-    _FlagItem(locale: const Locale('en'), asset: 'assets/flags/en.png'),
-    _FlagItem(locale: const Locale('fa'), asset: 'assets/flags/fa.png'),
-    _FlagItem(locale: const Locale('de'), asset: 'assets/flags/de.png'),
+    _FlagItem(locale: const Locale('en'), asset: 'assets/img/flags/en.png'),
+    _FlagItem(locale: const Locale('fa'), asset: 'assets/img/flags/fa.png'),
+    _FlagItem(locale: const Locale('de'), asset: 'assets/img/flags/de.png'),
   ];
 
   @override

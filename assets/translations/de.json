@@ -2,5 +2,6 @@
   "hello": "Hallo",
   "welcome": "Willkommen in unserer App",
   "Login": "Login",
-  "create": "Ein Konto erstellen"
+  "create": "Ein Konto erstellen",
+  "google": "Mit Google fortfahren"
 }

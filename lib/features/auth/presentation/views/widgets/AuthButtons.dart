@@ -2,6 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../../../core/utils/naviagtion_helper.dart';
+import '../signup_screen.dart';
+
+
+
+
 class AuthButtons extends StatelessWidget {
   const AuthButtons({super.key});
 
@@ -14,7 +20,9 @@ class AuthButtons extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              navigateWithFade(context,SignUpScreen());
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: theme.colorScheme.primary,
               padding: const EdgeInsets.symmetric(vertical: 14),
@@ -38,7 +46,7 @@ class AuthButtons extends StatelessWidget {
           child: OutlinedButton.icon(
             onPressed: () {},
             icon: const FaIcon(FontAwesomeIcons.google),
-            label: const Text("Continue with Google", style: TextStyle(fontSize: 16, color: Colors.black87)),
+            label:  Text("google".tr(), style: TextStyle(fontSize: 16, color: Colors.black87)),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: Colors.grey),
               padding: const EdgeInsets.symmetric(vertical: 14),

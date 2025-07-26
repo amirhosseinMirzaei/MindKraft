@@ -2,5 +2,6 @@
   "hello": "Hello",
   "welcome": "Welcome to our app",
   "Login": "Login",
-  "create": "Create an Account"
+  "create": "Create an Account",
+  "google": "Continue with Google"
 }
