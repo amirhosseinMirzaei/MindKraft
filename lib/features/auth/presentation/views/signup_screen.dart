@@ -1,7 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mindkraft/core/theme/app_colors.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
+import '../../../../core/utils/naviagtion_helper.dart';
 import '../../../../services/parse_service.dart';
+import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -98,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F4D4B),
+      backgroundColor: AppColors.onPrimary,
       body: SafeArea(
         child: Column(
           children: [
@@ -183,17 +187,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Padding(
               padding: const EdgeInsets.only(bottom: 10, top: 5),
               child: RichText(
-                text: const TextSpan(
+                text:  TextSpan(
                   text: "Already have an account? ",
                   style: TextStyle(color: Colors.white),
                   children: [
                     TextSpan(
+
                       text: "Log In",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
                       ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          // اینجا عملیات رفتن به صفحه لاگین
+                          navigateWithFade(context,LoginScreen());
+                        },
                     )
                   ],
                 ),

@@ -18,5 +18,13 @@ class ParseService {
     return response;
   }
 
-// می‌تونی اینجا متدهای دیگه مثل login، logout و غیره هم اضافه کنی
+  Future<ParseResponse> login({
+    required String email,
+    required String password,
+  }) async {
+    final user = ParseUser(email, password, null);
+    final response = await user.login();
+    return response;
+  }
+
 }

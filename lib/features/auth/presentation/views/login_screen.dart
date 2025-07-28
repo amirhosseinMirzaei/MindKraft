@@ -1,240 +1,191 @@
-import 'dart:async';
-import 'dart:math';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mindkraft/features/auth/presentation/views/widgets/AuthButtons.dart';
-import 'package:mindkraft/shared/widgets/header.dart';
+import 'package:mindkraft/core/theme/app_colors.dart';
+import 'package:mindkraft/features/auth/presentation/views/signup_screen.dart';
+
+import '../../../../core/utils/naviagtion_helper.dart';
+import '../../../../services/parse_service.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+
+import '../../../uploadFile/presentation/views/file_upload_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
-  late AnimationController _imageController;
-  late AnimationController _contentController;
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  late Animation<Offset> _imageOffsetAnimation;
-  late Animation<Offset> _contentOffsetAnimation;
-  late AnimationController _dotsController;
-  bool showContent = false;
+  bool isLoading = false;
 
-  @override
-  void initState() {
-    super.initState();
+  Future<void> _handleLogin() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
 
-    _imageController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000),
-    );
+    if (email.isEmpty || password.isEmpty) {
+      _showSnackbar('Please fill in all fields');
+      return;
+    }
 
+    setState(() => isLoading = true);
 
+    final response = await ParseService().login(email: email, password: password);
 
-    _imageOffsetAnimation = Tween<Offset>(
-      begin: const Offset(0, 1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _imageController,
-      curve: Curves.easeOut,
-    ));
-    _dotsController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 1100),
-    )..repeat();
+    setState(() => isLoading = false);
 
-    _contentController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-    );
+    if (response.success && response.results != null) {
+      _showSnackbar('Login successful 🎉');
 
-    _contentOffsetAnimation = Tween<Offset>(
-      begin: const Offset(0, 1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _contentController,
-      curve: Curves.easeOut,
-    ));
+      navigateWithFade(context, StudyAssistantPage());
 
-    // Start image animation
-    _imageController.forward();
-
-    // Delay content reveal
-    Future.delayed(const Duration(seconds: 3), () {
-      setState(() => showContent = true);
-      _contentController.forward();
-    });
-
-    _imageController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        setState(() {}); // تا بتونه نقطه‌ها رو نشون بده
-      }
-    });
+    } else {
+      _showSnackbar(response.error?.message ?? 'Login failed');
+    }
   }
 
-  @override
-  void dispose() {
-    _imageController.dispose();
-    _contentController.dispose();
-    super.dispose();
+  void _showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return Scaffold(
+      backgroundColor: AppColors.onPrimary,
       body: SafeArea(
         child: Column(
           children: [
-            // Header (Login + Language)
-            AnimatedOpacity(
-              opacity: showContent ? 1 : 0,
-              duration: const Duration(milliseconds: 500),
-              child: SlideTransition(
-                position: _contentOffsetAnimation,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(39, 30, 28, 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Login".tr(), style: theme.textTheme.titleMedium!.copyWith(
-                        color: const Color(0xFF014242),
-                        fontWeight: FontWeight.bold,
-                      )),
-                      const Spacer(),
-                      const LanguageSwitcher(),
-                    ],
-                  ),
+            SizedBox(height: 40),
+            Text(
+              'Login',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 30),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.person, color: theme.colorScheme.primary),
+                        hintText: 'Email / Username',
+                        hintStyle: TextStyle(color: AppColors.surfaceDark.withOpacity(0.5)),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock, color: theme.colorScheme.primary),
+                        hintText: 'Password',
+                        hintStyle: TextStyle(color: AppColors.surfaceDark.withOpacity(0.5)),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'Forgot Password?',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton.icon(
+                      onPressed: isLoading ? null : _handleLogin,
+                      icon: isLoading
+                          ? SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            theme.colorScheme.onPrimary,
+                          ),
+                        ),
+                      )
+                          : Icon(Icons.login, color: theme.colorScheme.onPrimary),
+                      label: Text(
+                        isLoading ? 'Logging in...' : 'LOGIN',
+                        style: TextStyle(color: theme.colorScheme.onPrimary),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFB25F2A),
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        textStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 25),
+                    Row(
+                      children: [
+                        Expanded(child: Divider()),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Text('Or login with'),
+                        ),
+                        Expanded(child: Divider()),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    OutlinedButton.icon(
+                      onPressed: () {},
+                      icon: Icon(Icons.g_mobiledata, color: Colors.green),
+                      label: Text('Google'),
+                      style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        side: BorderSide(color: Colors.green),
+                        foregroundColor: Colors.green,
+                      ),
+                    ),
+                    Spacer(),
+                    Center(
+                      child: Text.rich(
+                        TextSpan(
+                          text: "Don't have an account? ",
+                          children: [
+                            TextSpan(
+                              text: 'Sign Up',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  navigateWithFade(context, SignUpScreen());
+                                },
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-
-            const SizedBox(height: 20),
-
-            // Welcome Text
-            AnimatedOpacity(
-              opacity: showContent ? 1 : 0,
-              duration: const Duration(milliseconds: 500),
-              child: SlideTransition(
-                position: _contentOffsetAnimation,
-                child: Text("Welcome to Mind Kraft",
-                    style: theme.textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.bold)),
-              ),
-            ),
-
-            const Spacer(),
-
-            // Animated Image
-            Column(
-              children: [
-                SlideTransition(
-                  position: _imageOffsetAnimation,
-                  child: FadeTransition(
-                    opacity: _imageController,
-                    child: Image.asset("assets/img/study.png", width: 300),
-                  ),
-                ),
-                if (_imageController.isCompleted && !showContent)
-                  LoadingDots(),
-                  // AnimatedBuilder(
-                  //   animation: _dotsController,
-                  //   builder: (context, child) {
-                  //     int tick = (_dotsController.value * 3).floor() % 4;
-                  //     String dots = '.' * tick;
-                  //     return Text(
-                  //       dots,
-                  //       style: const TextStyle(fontSize: 24, letterSpacing: 2),
-                  //     );
-                  //   },
-                  // ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            // Auth Buttons
-            AnimatedOpacity(
-              opacity: showContent ? 1 : 0,
-              duration: const Duration(milliseconds: 500),
-              child: SlideTransition(
-                position: _contentOffsetAnimation,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: const AuthButtons(),
-                ),
-              ),
-            ),
-
-            const Spacer(),
           ],
         ),
       ),
     );
   }
 }
-
-
-class LoadingDots extends StatefulWidget {
-  const LoadingDots({super.key});
-
-  @override
-  State<LoadingDots> createState() => _LoadingDotsState();
-}
-
-class _LoadingDotsState extends State<LoadingDots>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    )..repeat();
-
-    _animation = Tween<double>(begin: 0, end: 2 * pi).animate(_controller);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Widget _buildDot(int index) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (_, __) {
-        final offset = sin(_animation.value + index * 0.5) * 6;
-        return Transform.translate(
-          offset: Offset(0, -offset),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Container(
-              width: 10,
-              height: 10,
-              decoration: BoxDecoration(
-                color: Colors.teal, // کله‌غازی مثلا
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(3, _buildDot),
-    );
-  }
-}
-
