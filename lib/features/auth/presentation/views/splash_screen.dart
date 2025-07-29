@@ -139,17 +139,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                 ),
                 if (_imageController.isCompleted && !showContent)
                   LoadingDots(),
-                  // AnimatedBuilder(
-                  //   animation: _dotsController,
-                  //   builder: (context, child) {
-                  //     int tick = (_dotsController.value * 3).floor() % 4;
-                  //     String dots = '.' * tick;
-                  //     return Text(
-                  //       dots,
-                  //       style: const TextStyle(fontSize: 24, letterSpacing: 2),
-                  //     );
-                  //   },
-                  // ),
+
               ],
             ),
 

@@ -205,10 +205,10 @@ class _BottomNavigationItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, color: isActive ? activeColor: color ),
-          SizedBox(height: 4),
+
           Text(
             title,
-            style: TextStyle(color: color, fontSize: 12),
+            style: TextStyle(color: isActive? AppColors.secondary: color, fontSize: isActive? 14: 12,fontWeight: isActive?FontWeight.bold : FontWeight.w400),
           ),
         ],
       ),

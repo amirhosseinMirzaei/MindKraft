@@ -30,6 +30,10 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
 
 
 
+
+
+
+
 class LanguageSwitcher extends StatefulWidget {
   const LanguageSwitcher({super.key});
 
@@ -37,9 +41,11 @@ class LanguageSwitcher extends StatefulWidget {
   State<LanguageSwitcher> createState() => _LanguageSwitcherState();
 }
 
-class _LanguageSwitcherState extends State<LanguageSwitcher> with SingleTickerProviderStateMixin {
+class _LanguageSwitcherState extends State<LanguageSwitcher>
+    with SingleTickerProviderStateMixin {
   bool isOpen = false;
   late AnimationController _controller;
+  late Animation<double> _animation;
 
   final List<_FlagItem> flags = [
     _FlagItem(locale: const Locale('en'), asset: 'assets/img/flags/en.png'),
@@ -51,19 +57,16 @@ class _LanguageSwitcherState extends State<LanguageSwitcher> with SingleTickerPr
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 250),
       vsync: this,
     );
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
   }
 
   void toggleMenu() {
     setState(() {
       isOpen = !isOpen;
-      if (isOpen) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
+      isOpen ? _controller.forward() : _controller.reverse();
     });
   }
 
@@ -74,53 +77,37 @@ class _LanguageSwitcherState extends State<LanguageSwitcher> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100, // کمی بزرگ‌تر برای فضای باز شدن دکمه‌ها
-      height: 100,
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.center,
-        children: [
-          // دکمه‌های پرچم
-          ...List.generate(flags.length, (index) {
-            final angle = pi / 2 + (index * pi / (flags.length - 1)); // نیم‌دایره
-            return AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                final offset = Offset.fromDirection(
-                  angle,
-                  _controller.value * 50, // شعاع دکمه‌ها
-                );
-                return Positioned(
-                  left: 30 + offset.dx,
-                  top: 30 - offset.dy,
-                  child: IgnorePointer(
-                    ignoring: _controller.value == 0,
-                    child: Opacity(
-                      opacity: _controller.value,
-                      child: GestureDetector(
-                        onTap: () => changeLocale(flags[index].locale),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage(flags[index].asset),
-                          radius: 16,
-                          backgroundColor: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          }),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // آیکون اصلی
+        IconButton(
+          icon: const Icon(Icons.language, color: Color(0xFF014242)),
+          onPressed: toggleMenu,
+        ),
 
-          // دکمه اصلی
-          IconButton(
-            icon: const Icon(Icons.language, color: Color(0xFF014242)),
-            onPressed: toggleMenu,
-            iconSize: 28,
+        // انیمیشن پرچم‌ها (سمت راست آیکون)
+        SizeTransition(
+          sizeFactor: _animation,
+          axis: Axis.horizontal,
+          axisAlignment: -1,
+          child: Row(
+            children: flags
+                .map((flag) => GestureDetector(
+              onTap: () => changeLocale(flag.locale),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                child: CircleAvatar(
+                  backgroundImage: AssetImage(flag.asset),
+                  radius: 14,
+                  backgroundColor: Colors.white,
+                ),
+              ),
+            ))
+                .toList(),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -137,4 +124,5 @@ class _FlagItem {
 
   _FlagItem({required this.locale, required this.asset});
 }
+
 
