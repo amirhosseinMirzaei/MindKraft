@@ -2,8 +2,13 @@ import 'dart:async';
 import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mindkraft/features/auth/presentation/views/widgets/AuthButtons.dart';
+import 'package:mindkraft/features/home/presentation/pages/home_page.dart';
+import 'package:mindkraft/shared/widgets/bottom_navigation.dart';
 import 'package:mindkraft/shared/widgets/header.dart';
+
+import '../../../../core/utils/naviagtion_helper.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,6 +34,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
+
 
 
 
@@ -71,7 +77,10 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         setState(() {}); // تا بتونه نقطه‌ها رو نشون بده
       }
     });
+
   }
+
+
 
   @override
   void dispose() {

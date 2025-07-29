@@ -1,8 +1,10 @@
 // services/parse_service.dart
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class ParseService {
 
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   Future<ParseResponse> signUp({
     required String fullName,
@@ -25,6 +27,16 @@ class ParseService {
     final user = ParseUser(email, password, null);
     final response = await user.login();
     return response;
+  }
+
+  Future<void> logout() async {
+    final currentUser = await ParseUser.currentUser();
+    if (currentUser != null) {
+      await currentUser.logout();
+    }
+
+    // حذف توکن از حافظه امن
+    await _secureStorage.delete(key: 'accessToken');
   }
 
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mindkraft/core/theme/app_colors.dart';
 import 'package:mindkraft/features/home/presentation/pages/home_page.dart';
+import 'package:mindkraft/features/profile/presentation/views/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -67,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
                   Navigator(
                     key: _articleKey,
                     onGenerateRoute: (settings) => MaterialPageRoute(
-                        builder: (context) => Text('data')),
+                        builder: (context) => ProfilePage()),
                   ),
                   Navigator(
                     key: _searchKey,

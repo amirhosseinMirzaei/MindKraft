@@ -2,11 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mindkraft/core/theme/app_colors.dart';
 import 'package:mindkraft/features/auth/presentation/views/signup_screen.dart';
+import 'package:mindkraft/shared/widgets/bottom_navigation.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 import '../../../../core/utils/naviagtion_helper.dart';
 import '../../../../services/parse_service.dart';
-import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../uploadFile/presentation/views/file_upload_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
 
   bool isLoading = false;
+
+  final _secureStorage = FlutterSecureStorage();
 
   Future<void> _handleLogin() async {
     final email = emailController.text.trim();
@@ -36,10 +39,13 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => isLoading = false);
 
     if (response.success && response.results != null) {
+      final ParseUser user = response.results!.first as ParseUser;
+      final sessionToken = user.sessionToken;
+
+      await _secureStorage.write(key: 'accessToken', value: sessionToken);
+
       _showSnackbar('Login successful 🎉');
-
-      navigateWithFade(context, StudyAssistantPage());
-
+      navigateWithFade(context, MainScreen());
     } else {
       _showSnackbar(response.error?.message ?? 'Login failed');
     }
