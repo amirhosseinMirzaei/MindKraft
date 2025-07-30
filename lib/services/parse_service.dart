@@ -31,12 +31,11 @@ class ParseService {
 
   Future<void> logout() async {
     final currentUser = await ParseUser.currentUser();
+    await _secureStorage.delete(key: 'accessToken');
     if (currentUser != null) {
       await currentUser.logout();
     }
-
-    // حذف توکن از حافظه امن
-    await _secureStorage.delete(key: 'accessToken');
+    await _secureStorage.deleteAll();
   }
 
 }
