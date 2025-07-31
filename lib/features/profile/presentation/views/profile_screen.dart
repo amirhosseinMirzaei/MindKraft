@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-
-import 'package:mindkraft/features/auth/presentation/views/splash_screen.dart';
-import 'package:mindkraft/main.dart';
 import 'package:mindkraft/services/parse_service.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -24,7 +21,7 @@ class ProfilePage extends StatelessWidget {
         backgroundColor: const Color(0xFFE1F5ED),
         body: Column(
           children: [
-            // نوار بالا + هدر سبز
+
             Container(
               width: width,
               height: 280,

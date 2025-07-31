@@ -1,0 +1,101 @@
+{
+  "user_id": "user_001",
+  "subjects": [
+    {
+      "id": "sub_001",
+      "title": "Data Structures",
+      "category": "Computer Science",
+      "start_date": "2025-08-01",
+      "exam_date": "2025-08-28",
+      "weekly_plan": [
+        {
+          "week": 1,
+          "start": "2025-08-01",
+          "end": "2025-08-07",
+          "chapters": [1, 2]
+        },
+        {
+          "week": 2,
+          "start": "2025-08-08",
+          "end": "2025-08-14",
+          "chapters": [3]
+        },
+        {
+          "week": 3,
+          "start": "2025-08-15",
+          "end": "2025-08-21",
+          "chapters": [4]
+        }
+      ],
+      "is_completed": false,
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Introduction to Data Structures",
+          "summary": "This chapter explains what data structures are and why they are important.",
+          "is_read": false
+        },
+        {
+          "id": 2,
+          "title": "Arrays and Linked Lists",
+          "summary": "Covers linear data structures, arrays, dynamic memory, and linked list basics.",
+          "is_read": false
+        },
+        {
+          "id": 3,
+          "title": "Stacks and Queues",
+          "summary": "Describes stack (LIFO) and queue (FIFO), their operations and use cases.",
+          "is_read": false
+        },
+        {
+          "id": 4,
+          "title": "Trees and Graphs",
+          "summary": "Explains hierarchical data with trees and graph basics including traversal.",
+          "is_read": false
+        }
+      ]
+    },
+    {
+      "id": "sub_002",
+      "title": "Operating Systems",
+      "category": "Computer Science",
+      "start_date": "2025-08-01",
+      "exam_date": "2025-08-29",
+      "weekly_plan": [
+        {
+          "week": 1,
+          "start": "2025-08-01",
+          "end": "2025-08-07",
+          "chapters": [1]
+        },
+        {
+          "week": 2,
+          "start": "2025-08-08",
+          "end": "2025-08-14",
+          "chapters": [2, 3]
+        }
+      ],
+      "is_completed": false,
+      "chapters": [
+        {
+          "id": 1,
+          "title": "Intro to Operating Systems",
+          "summary": "Basic OS concepts: what they do and how they work.",
+          "is_read": false
+        },
+        {
+          "id": 2,
+          "title": "Memory Management",
+          "summary": "Covers paging, segmentation, and virtual memory systems.",
+          "is_read": false
+        },
+        {
+          "id": 3,
+          "title": "Process Scheduling",
+          "summary": "Describes how operating systems manage CPU processes.",
+          "is_read": false
+        }
+      ]
+    }
+  ]
+}
