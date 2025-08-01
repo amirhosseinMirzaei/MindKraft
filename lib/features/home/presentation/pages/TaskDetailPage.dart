@@ -24,7 +24,7 @@ class TaskDetailPage extends StatelessWidget {
             summary,
             style: TextStyle(
               fontSize: 18,
-              height: 1.5, // فاصله بین خطوط برای خوانایی بهتر
+              height: 1.5,
               color: Colors.grey[800], // رنگ متن ملایم
               fontWeight: FontWeight.w400,
             ),
