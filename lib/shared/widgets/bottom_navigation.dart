@@ -4,6 +4,8 @@ import 'package:mindkraft/core/theme/app_colors.dart';
 import 'package:mindkraft/features/home/presentation/pages/home_page.dart';
 import 'package:mindkraft/features/profile/presentation/views/profile_screen.dart';
 
+import '../../features/document/presentation/DocumentUploaderPage.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -73,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
                   Navigator(
                     key: _searchKey,
                     onGenerateRoute: (settings) =>
-                        MaterialPageRoute(builder: (context) => SearchScreen()),
+                        MaterialPageRoute(builder: (context) => DocumentUploaderPage()),
                   ),
 
                 ],

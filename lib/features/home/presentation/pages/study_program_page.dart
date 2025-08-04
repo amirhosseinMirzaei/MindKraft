@@ -197,7 +197,7 @@ class _StudyProgramPageState extends State<StudyProgramPage> {
                     children: [
                       const Icon(Icons.timelapse, size: 16, color: Colors.grey),
                       const SizedBox(width: 4),
-                      Text('$hours ساعت', style: const TextStyle(fontSize: 12)),
+                      Text('$hours hour', style: const TextStyle(fontSize: 12)),
                       const SizedBox(width: 12),
                       const Icon(Icons.menu_book, size: 16, color: Colors.grey),
                       const SizedBox(width: 4),
