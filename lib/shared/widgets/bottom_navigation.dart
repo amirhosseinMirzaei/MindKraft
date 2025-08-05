@@ -5,12 +5,16 @@ import 'package:mindkraft/features/home/presentation/pages/home_page.dart';
 import 'package:mindkraft/features/profile/presentation/views/profile_screen.dart';
 
 import '../../features/document/presentation/DocumentUploaderPage.dart';
+final GlobalKey<_MainScreenState> mainScreenKey = GlobalKey<_MainScreenState>();
+
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({super.key, this.initialTab = homeIndex});
+
+  final int initialTab;
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
 const int homeIndex = 0;
@@ -20,6 +24,7 @@ const int menuIndex = 3;
 const double heightBottomNavigation = 65;
 
 class _MainScreenState extends State<MainScreen> {
+
   int selectedScreenIndex = homeIndex;
 
   GlobalKey<NavigatorState> _homeKey = GlobalKey();
@@ -28,15 +33,10 @@ class _MainScreenState extends State<MainScreen> {
   GlobalKey<NavigatorState> _menuKey = GlobalKey();
 
   final List<int> _history = [];
-  late final map = {
-    homeIndex: _homeKey,
-    articleIndex: _articleKey,
-    searchIndex: _searchKey,
-    menuIndex: _menuKey
-  };
+  late final map = {homeIndex: _homeKey, articleIndex: _articleKey, searchIndex: _searchKey, menuIndex: _menuKey};
+
   Future<bool> _onWillPop() async {
-    final NavigatorState currentSelectedTabNavigatorState =
-    map[selectedScreenIndex]!.currentState!;
+    final NavigatorState currentSelectedTabNavigatorState = map[selectedScreenIndex]!.currentState!;
     if (currentSelectedTabNavigatorState.canPop()) {
       currentSelectedTabNavigatorState.pop();
       return false;
@@ -48,6 +48,21 @@ class _MainScreenState extends State<MainScreen> {
       return false;
     }
     return true;
+  }
+  void changeTab(int index) {
+    if (index != selectedScreenIndex) {
+      setState(() {
+        _history.remove(selectedScreenIndex);
+        _history.add(selectedScreenIndex);
+        selectedScreenIndex = index;
+      });
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    selectedScreenIndex = widget.initialTab;
   }
 
   @override
@@ -62,22 +77,9 @@ class _MainScreenState extends State<MainScreen> {
               child: IndexedStack(
                 index: selectedScreenIndex,
                 children: [
-                  Navigator(
-                    key: _homeKey,
-                    onGenerateRoute: (settings) =>
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                  ),
-                  Navigator(
-                    key: _articleKey,
-                    onGenerateRoute: (settings) => MaterialPageRoute(
-                        builder: (context) => ProfilePage()),
-                  ),
-                  Navigator(
-                    key: _searchKey,
-                    onGenerateRoute: (settings) =>
-                        MaterialPageRoute(builder: (context) => DocumentUploaderPage()),
-                  ),
-
+                  Navigator(key: _homeKey, onGenerateRoute: (settings) => MaterialPageRoute(builder: (context) => HomePage())),
+                  Navigator(key: _articleKey, onGenerateRoute: (settings) => MaterialPageRoute(builder: (context) => ProfilePage())),
+                  Navigator(key: _searchKey, onGenerateRoute: (settings) => MaterialPageRoute(builder: (context) => DocumentUploaderPage())),
                 ],
               ),
             ),
@@ -106,11 +108,7 @@ class _MainScreenState extends State<MainScreen> {
 class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Search Screen',
-      ),
-    );
+    return Center(child: Text('Search Screen'));
   }
 }
 
@@ -118,11 +116,7 @@ class CustomBottomNavigation extends StatelessWidget {
   final Function(int index) onTap;
   final int selectedIndex;
 
-  const CustomBottomNavigation({
-    super.key,
-    required this.onTap,
-    required this.selectedIndex,
-  });
+  const CustomBottomNavigation({super.key, required this.onTap, required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -137,26 +131,13 @@ class CustomBottomNavigation extends StatelessWidget {
             bottom: 0,
             child: Container(
               height: 60,
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(30),
-              ),
+              decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(30)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _BottomNavigationItem(
-                    icon: Icons.home,
-                    title: 'Home',
-                    isActive: selectedIndex == 0,
-                    onTap: () => onTap(0),
-                  ),
+                  _BottomNavigationItem(icon: Icons.home, title: 'Home', isActive: selectedIndex == 0, onTap: () => onTap(0)),
                   SizedBox(width: 60), // فاصله برای دکمه وسط
-                  _BottomNavigationItem(
-                    icon: Icons.person,
-                    title: 'Profile',
-                    isActive: selectedIndex == 1,
-                    onTap: () => onTap(1),
-                  ),
+                  _BottomNavigationItem(icon: Icons.person, title: 'Profile', isActive: selectedIndex == 1, onTap: () => onTap(1)),
                 ],
               ),
             ),
@@ -191,12 +172,7 @@ class _BottomNavigationItem extends StatelessWidget {
   final bool isActive;
   final VoidCallback onTap;
 
-  const _BottomNavigationItem({
-    required this.icon,
-    required this.title,
-    required this.isActive,
-    required this.onTap,
-  });
+  const _BottomNavigationItem({required this.icon, required this.title, required this.isActive, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -207,11 +183,15 @@ class _BottomNavigationItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: isActive ? activeColor: color ),
+          Icon(icon, color: isActive ? activeColor : color),
 
           Text(
             title,
-            style: TextStyle(color: isActive? AppColors.secondary: color, fontSize: isActive? 14: 12,fontWeight: isActive?FontWeight.bold : FontWeight.w400),
+            style: TextStyle(
+              color: isActive ? AppColors.secondary : color,
+              fontSize: isActive ? 14 : 12,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.w400,
+            ),
           ),
         ],
       ),
