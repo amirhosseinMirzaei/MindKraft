@@ -5,8 +5,8 @@ import 'package:mindkraft/features/home/presentation/pages/home_page.dart';
 import 'package:mindkraft/features/profile/presentation/views/profile_screen.dart';
 
 import '../../features/document/presentation/DocumentUploaderPage.dart';
-final GlobalKey<_MainScreenState> mainScreenKey = GlobalKey<_MainScreenState>();
 
+final GlobalKey<_MainScreenState> mainScreenKey = GlobalKey<_MainScreenState>();
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key, this.initialTab = homeIndex});
@@ -24,7 +24,6 @@ const int menuIndex = 3;
 const double heightBottomNavigation = 65;
 
 class _MainScreenState extends State<MainScreen> {
-
   int selectedScreenIndex = homeIndex;
 
   GlobalKey<NavigatorState> _homeKey = GlobalKey();
@@ -49,6 +48,7 @@ class _MainScreenState extends State<MainScreen> {
     }
     return true;
   }
+
   void changeTab(int index) {
     if (index != selectedScreenIndex) {
       setState(() {
@@ -56,6 +56,10 @@ class _MainScreenState extends State<MainScreen> {
         _history.add(selectedScreenIndex);
         selectedScreenIndex = index;
       });
+    }
+    if (index == homeIndex) {
+      // ریست کردن Navigator داخلی صفحه Home
+      _homeKey.currentState?.popUntil((route) => route.isFirst);
     }
   }
 
