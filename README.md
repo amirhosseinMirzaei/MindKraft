@@ -6,18 +6,6 @@ MindKraft is a Flutter-based mobile application designed to provide an intuitive
 
 ---
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-If you're new to Flutter, here are some useful resources to get you started:
-
-- [Write your first Flutter app - Flutter Codelab](https://docs.flutter.dev/get-started/codelab)
-- [Flutter Cookbook: Useful samples](https://docs.flutter.dev/cookbook)
-- [Official Flutter Documentation](https://docs.flutter.dev/)
-
----
-
 ## Key Technologies & Skills Used
 
 - **Freezed:** Immutable data classes and unions with code generation for clean and maintainable state management.
@@ -36,18 +24,28 @@ If you're new to Flutter, here are some useful resources to get you started:
     <td align="center">
       <img src="./assets/screenShots/۱.png" width="200" />
       <br/>
-      <sub>Splash and login screen </sub>
+<!--       <sub>Splash and login screen </sub> -->
     </td>
     <td align="center">
-      <img src="./assets/images/2.png" width="200" />
+      <img src="./assets/screenShots/2.png" width="200" />
       <br/>
-      <sub>Clean and modern login interface</sub>
+<!--       <sub>Clean and modern login interface</sub> -->
     </td>
     <td align="center">
       <img src="./assets/screenShots/3.png" width="200" />
       <br/>
-      <sub>Another screen description</sub>
+<!--       <sub>Another screen description</sub> -->
     </td>
+     <td align="center">
+      <img src="./assets/screenShots/4.png" width="200" />
+      <br/>
+<!--       <sub>Another screen description</sub> -->
+    </td>
+     <td align="center">
+      <img src="./assets/screenShots/5.png" width="200" />
+      <br/>
+     
+ 
   </tr>
 </table>
 
