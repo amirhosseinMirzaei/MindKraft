@@ -1,18 +1,13 @@
 # MindKraft
 
-![MindKraft Logo or Screenshot](./assets/images/mindkraft_screenshot.png)
-
-MindKraft is a Flutter-based mobile application designed to provide an intuitive and engaging user experience.
-
 ---
 
 ## Key Technologies & Skills Used
 
 - **Freezed:** Immutable data classes and unions with code generation for clean and maintainable state management.
+- **OpenAI API Integration:** Leveraging AI capabilities for advanced functionalities such as natural language processing.
 - **Localization (Multi-language support):** The app supports multiple languages to reach a wider audience.
 - **Parse Server:** Backend as a service (BaaS) for user management, data storage, and real-time features.
-- **OpenAI API Integration:** Leveraging AI capabilities for advanced functionalities such as natural language processing.
-- **State Management:** Efficient handling of app state for a smooth user experience.
 - **Custom UI & Animations:** Tailored UI components and animations for enhanced visual appeal.
 
 ---
@@ -48,6 +43,17 @@ MindKraft is a Flutter-based mobile application designed to provide an intuitive
  
   </tr>
 </table>
+
+## 📱 App Workflow
+
+1. 📤 **Upload a Document**  
+   The user uploads a study-related document (e.g. class notes or exam materials).
+
+2. 🤖 **AI-Powered Analysis**  
+   The uploaded file is analyzed using OpenAI's artificial intelligence to extract and understand the key content.
+
+3. 🗓️ **Smart Study Planning**  
+   Based on the user's exam date, the app generates a weekly study plan, intelligently organizing the content for efficient learning.
 
 ---
 
