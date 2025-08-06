@@ -56,6 +56,24 @@
    Based on the user's exam date, the app generates a weekly study plan, intelligently organizing the content for efficient learning.
 
 ---
+## 📦 Used Packages
+
+Below is a list of the main Flutter packages used in this project, along with their purpose and documentation links:
+
+| Package | Description |
+|--------|-------------|
+| [easy_localization](https://pub.dev/packages/easy_localization) | Localization and internationalization support for multilingual apps. |
+| [font_awesome_flutter](https://pub.dev/packages/font_awesome_flutter) | Provides Font Awesome icons in Flutter. |
+| [animations](https://pub.dev/packages/animations) | Pre-built animations for common UI transitions. |
+| [parse_server_sdk_flutter](https://pub.dev/packages/parse_server_sdk_flutter) | Connects your Flutter app to a Parse Server backend. |
+| [file_picker](https://pub.dev/packages/file_picker) | Enables file selection from device storage. |
+| [percent_indicator](https://pub.dev/packages/percent_indicator) | Custom circular and linear percent indicators. |
+| [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) | Secure storage for sensitive data (e.g., tokens). |
+| [flutter_phoenix](https://pub.dev/packages/flutter_phoenix) | Allows restarting the app programmatically. |
+| [freezed_annotation](https://pub.dev/packages/freezed_annotation) | Used with `freezed` for immutable data class generation. |
+| [json_annotation](https://pub.dev/packages/json_annotation) | Assists with JSON serialization via code generation. |
+| [pdf_text](https://pub.dev/packages/pdf_text) | Extracts text from PDF documents. |
+
 
 ## How to Run
 
