@@ -31,11 +31,25 @@ If you're new to Flutter, here are some useful resources to get you started:
 
 ## Screenshots
 
-![Splash Screen](./assets/images/splash_screen.png)  
-*Splash screen with gradient background*
-
-![Login Screen](./assets/images/login_screen.png)  
-*Clean and modern login interface*
+<table>
+  <tr>
+    <td align="center">
+      <img src="./assets/screenShots/۱.png" width="200" />
+      <br/>
+      <sub>Splash and login screen </sub>
+    </td>
+    <td align="center">
+      <img src="./assets/images/2.png" width="200" />
+      <br/>
+      <sub>Clean and modern login interface</sub>
+    </td>
+    <td align="center">
+      <img src="./assets/screenShots/3.png" width="200" />
+      <br/>
+      <sub>Another screen description</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
